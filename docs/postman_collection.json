@@ -1,0 +1,379 @@
+{
+  "info": {
+    "_postman_id": "8d6c47a5-c8c9-4e0b-8ef4-5d3b6c9a4f21",
+    "name": "Library Management System - Backend Core",
+    "description": "All implemented Auth, Users, Genres and Books endpoints. Set baseUrl and accessToken collection variables. Protected Book writes require a LIBRARIAN token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Register patron",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{baseUrl}}/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Alex Reader\",\n  \"email\": \"alex@example.com\",\n  \"password\": \"ChangeMe123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Login (rate limited)",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"alex@example.com\",\n  \"password\": \"ChangeMe123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Get authenticated profile",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/users/profile",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "profile"
+          ]
+        },
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create genre",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{baseUrl}}/genres",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "genres"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Mystery\",\n  \"description\": \"Mystery and detective fiction\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "List genres",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/genres",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "genres"
+          ]
+        },
+        "header": []
+      }
+    },
+    {
+      "name": "Get genre by ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/genres/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "genres",
+            "1"
+          ]
+        },
+        "header": []
+      }
+    },
+    {
+      "name": "Update genre",
+      "request": {
+        "method": "PATCH",
+        "url": {
+          "raw": "{{baseUrl}}/genres/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "genres",
+            "1"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"description\": \"Mystery, crime and detective fiction\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Delete genre",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/genres/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "genres",
+            "1"
+          ]
+        },
+        "header": []
+      }
+    },
+    {
+      "name": "List books with filters and pagination",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books"
+          ],
+          "query": [
+            {
+              "key": "genreId",
+              "value": "1"
+            },
+            {
+              "key": "search",
+              "value": "achebe"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        },
+        "header": []
+      }
+    },
+    {
+      "name": "Get book by ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books",
+            "1"
+          ]
+        },
+        "header": []
+      }
+    },
+    {
+      "name": "Create book (LIBRARIAN only)",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Things Fall Apart\",\n  \"author\": \"Chinua Achebe\",\n  \"isbn\": \"9780385474542\",\n  \"totalCopies\": 4,\n  \"genreId\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update book (LIBRARIAN only)",
+      "request": {
+        "method": "PATCH",
+        "url": {
+          "raw": "{{baseUrl}}/books/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books",
+            "1"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"totalCopies\": 6\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete book (LIBRARIAN only)",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/books/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books",
+            "1"
+          ]
+        },
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
